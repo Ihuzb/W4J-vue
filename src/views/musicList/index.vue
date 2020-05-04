@@ -1,79 +1,93 @@
 <template>
-    <a-table :columns="columns" :dataSource="data">
-    </a-table>
+    <div>
+        <a-table :pagination="false" :columns="columns" :dataSource="dataInfo" :loading="loading" rowKey="comment_id">
+        <span slot="music_name" slot-scope="text, record,index">
+            <span>《{{text}}》</span>
+        </span>
+            <span slot="caozuo" slot-scope="text, record,index">
+          <a-button type="danger" @click="updateCommentStates(record.comment_id,index)">删除</a-button>
+         </span>
+        </a-table>
+        <a-icon type="retweet" class="retweet" @click="showNewInfo"/>
+    </div>
+
 </template>
 
 <script>
-    import {Table} from 'ant-design-vue'
-    import {selectMusicList} from '../../../../new/src/api/index'
+    import {Table, Button, Icon} from 'ant-design-vue'
+    import {selectMusicList, updateCommentState} from '../../api/index'
 
     const columns = [
         {
-            title: 'name',
-            dataIndex: 'name',
-            key: 'name',
-            slots: {title: 'customTitle'},
-            scopedSlots: {customRender: 'name'},
+            title: '音乐名',
+            dataIndex: 'music_name',
+            key: 'music_name',
+            scopedSlots: {customRender: 'music_name'},
+            width: '20%'
         },
         {
-            title: 'Age',
-            dataIndex: 'age',
-            key: 'age',
+            title: '评论内容',
+            dataIndex: 'comment_text',
+            key: 'comment_text',
+            width: '60%'
         },
         {
-            title: 'Address',
-            dataIndex: 'address',
-            key: 'address',
-        },
-        {
-            title: 'Tags',
-            key: 'tags',
-            dataIndex: 'tags',
-            scopedSlots: {customRender: 'tags'},
-        },
-        {
-            title: 'Action',
-            key: 'action',
-            scopedSlots: {customRender: 'action'},
+            title: '操作',
+            key: 'caozuo',
+            scopedSlots: {customRender: 'caozuo'},
+            width: '20%'
         },
     ];
 
-    const data = [
-        {
-            key: '1',
-            name: 'John Brown',
-            age: 32,
-            address: 'New York No. 1 Lake Park',
-            tags: ['nice', 'developer'],
-        },
-        {
-            key: '2',
-            name: 'Jim Green',
-            age: 42,
-            address: 'London No. 1 Lake Park',
-            tags: ['loser'],
-        },
-        {
-            key: '3',
-            name: 'Joe Black',
-            age: 32,
-            address: 'Sidney No. 1 Lake Park',
-            tags: ['cool', 'teacher'],
-        },
-    ];
     export default {
         name: 'musicList',
         data() {
             return {
-                data,
+                loading: false,
+                dataInfo: [],
                 columns,
             }
         },
         components: {
-            ATable: Table
+            ATable: Table,
+            AButton: Button,
+            AIcon: Icon
         },
         created() {
-            selectMusicList();
+            this.selectMusicLists()
+        },
+        methods: {
+            selectMusicLists: function () {
+                this.loading = true;
+                selectMusicList().then(res => {
+                    console.log(res);
+                    this.dataInfo = res.data;
+                    this.loading = false
+                })
+            },
+            updateCommentStates: function (id, index) {
+                let dataInfo = this.dataInfo;
+                updateCommentState({id}).then(res => {
+                    dataInfo.splice(index, 1);
+                    this.dataInfo = dataInfo;
+                })
+            },
+            showNewInfo: function () {
+                this.selectMusicLists();
+            }
         }
     }
 </script>
+<style scoped>
+    .retweet {
+        position: fixed;
+        right: 70px;
+        bottom: 20px;
+        font-size: 35px;
+        background-color: ghostwhite;
+        border: 1px solid gainsboro;
+        padding: 10px;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+</style>
