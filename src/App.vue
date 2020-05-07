@@ -7,9 +7,9 @@
                     <a-icon type="pie-chart"/>
                     <span>评论列表</span>
                 </a-menu-item>
-                <a-menu-item key="2" @click="hreftwo('about')">
+                <a-menu-item key="2" @click="hreftwo('serviceManagement')">
                     <a-icon type="desktop"/>
-                    <span>About</span>
+                    <span>服务管理</span>
                 </a-menu-item>
                 <a-sub-menu key="sub1">
                     <span slot="title"><a-icon type="user"/><span>User</span></span>

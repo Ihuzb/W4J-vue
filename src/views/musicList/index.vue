@@ -16,6 +16,7 @@
 <script>
     import {Table, Button, Icon} from 'ant-design-vue'
     import {selectMusicList, updateCommentState} from '../../api/index'
+    import io from 'socket.io-client'
 
     const columns = [
         {
@@ -23,7 +24,7 @@
             dataIndex: 'music_name',
             key: 'music_name',
             scopedSlots: {customRender: 'music_name'},
-            width: '20%'
+            width: '30%'
         },
         {
             title: '评论内容',
@@ -35,7 +36,7 @@
             title: '操作',
             key: 'caozuo',
             scopedSlots: {customRender: 'caozuo'},
-            width: '20%'
+            width: '10%'
         },
     ];
 
@@ -46,6 +47,7 @@
                 loading: false,
                 dataInfo: [],
                 columns,
+                socket: null,
             }
         },
         components: {

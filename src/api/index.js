@@ -22,3 +22,25 @@ export const updateCommentState = (value) => {
         }
     })
 }
+//运行程序
+export const startW4J = (value) => {
+    return axios.get('/api/startW4J').then(res => {
+        let data = res.data;
+        if (data.code == 200) {
+            return Promise.resolve(data)
+        } else {
+            return Promise.reject(data)
+        }
+    })
+}
+//启动准备
+export const addStartW4J = (value) => {
+    return axios.get('/api/addStartW4J').then(res => {
+        let data = res.data;
+        if (data.code == 200) {
+            return Promise.resolve(data)
+        } else {
+            return Promise.reject(data)
+        }
+    })
+}
