@@ -44,3 +44,15 @@ export const addStartW4J = (value) => {
         }
     })
 }
+
+//查询词云
+export const ciYun = (value) => {
+    return axios.get('/api/ciYun').then(res => {
+        let data = res.data;
+        if (data.code == 200) {
+            return Promise.resolve(data)
+        } else {
+            return Promise.reject(data)
+        }
+    })
+}

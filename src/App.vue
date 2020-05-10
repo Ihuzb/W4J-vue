@@ -11,6 +11,10 @@
                     <a-icon type="desktop"/>
                     <span>服务管理</span>
                 </a-menu-item>
+                <a-menu-item key="3" @click="hreftwo('ziyun')">
+                    <a-icon type="star"/>
+                    <span>评论词云</span>
+                </a-menu-item>
                 <a-sub-menu key="sub1">
                     <span slot="title"><a-icon type="user"/><span>User</span></span>
                     <a-menu-item key="3">Tom</a-menu-item>
@@ -65,8 +69,7 @@
         methods: {
             //跳转页面
             hreftwo(href) {
-                console.log(href);
-                this.$router.push({path: `/${href}`})
+                this.$router.push({path: `/${href}`}).catch(data => {  })
             }
         },
         components: {
