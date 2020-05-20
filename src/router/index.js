@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 import SocketIO from 'socket.io-client';
 
 Vue.use(VueRouter)
@@ -22,16 +21,19 @@ const routes = [
     {
         path: '/',
         name: 'musicList',
+        meta: { name: '评论列表' },
         component: () => import(/* webpackChunkName: "musicList" */ '../views/musicList/index.vue')
     },
     {
         path: '/serviceManagement',
         name: 'serviceManagement',
+        meta: { name: '服务管理' },
         component: () => import(/* webpackChunkName: "serviceManagement" */ '../views/serviceManagement/index.vue')
     },
     {
         path: '/ziyun',
         name: 'ziyun',
+        meta: { name: '评论词云' },
         component: () => import(/* webpackChunkName: "ziyun" */ '../views/ziyun/index.vue')
     }
 ]
@@ -42,6 +44,7 @@ const router = new VueRouter({
 //路由守卫
 router.beforeEach((to, from, next) => {
     if (from.name != to.name) {
+        window.document.title=to.meta.name;
         if (from.name == 'serviceManagement') { //离开服务管理页面 关闭连接
             Vue.prototype.$socket.disconnect()
         } else if (to.name == 'serviceManagement') {//去往服务管理页面  创建连接
